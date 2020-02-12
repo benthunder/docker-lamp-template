@@ -1,0 +1,55 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: "3.1"
+services:
+  memcached:
+    image: memcached:alpine
+    container_name: mini-lamp-memcached
+
+  redis:
+    image: redis:alpine
+    container_name: mini-lamp-redis
+
+  mysql:
+    image: mysql:5.7
+    container_name: mini-lamp-mysql
+    working_dir: /application
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mini_lamp_data
+      - MYSQL_USER=ben
+      - MYSQL_PASSWORD=root
+    ports:
+      - "3306:3306"
+
+  webserver:
+    build: phpdocker/nginx
+    container_name: mini-lamp-webserver
+    working_dir: /application
+    volumes:
+      - www:/application/public
+    ports:
+      - "80:80"
+
+  php-fpm:
+    build: phpdocker/php-fpm
+    container_name: mini-lamp-php-fpm
+    working_dir: /application
+    volumes:
+      - www:/application/public
+
+  ftp-server:
+    build: phpdocker/ftp-server
+    container_name: mini-lamp-ftp-server
+    working_dir: /application
+    volumes:
+      - www:/application/public
+    ports:
+      - "22:22"
+      - "21:21"
+volumes:
+  db:
+  www:
