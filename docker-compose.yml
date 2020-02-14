@@ -34,9 +34,16 @@ services:
     ports:
       - "80:80"
 
-  php-fpm:
-    build: phpdocker/php-fpm
-    container_name: mini-lamp-php-fpm
+  php-fpm72:
+    build: phpdocker/php-fpm-72
+    container_name: mini-lamp-php-fpm-72
+    working_dir: /application
+    volumes:
+      - www:/application/public
+
+  php-fpm56:
+    build: phpdocker/php-fpm-56
+    container_name: mini-lamp-php-fpm-56
     working_dir: /application
     volumes:
       - www:/application/public
