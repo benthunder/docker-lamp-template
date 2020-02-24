@@ -25,18 +25,26 @@ services:
     ports:
       - "3306:3306"
 
+  # webserver:
+  #   build: phpdocker/nginx
+  #   container_name: mini-lamp-webserver
+  #   working_dir: /application
+  #   volumes:
+  #     - www:/application/public
+  #   ports:
+  #     - "80:80"
   webserver:
-    build: phpdocker/nginx
+    build: phpdocker/apache
     container_name: mini-lamp-webserver
-    working_dir: /application
+    working_dir: /usr/local/apache2/htdocs
     volumes:
-      - www:/application/public
+      - www:/usr/local/apache2/htdocs
     ports:
       - "80:80"
 
   php-fpm-72:
     build: phpdocker/php-fpm-72
-    container_name: mini-lamp-php-fpm
+    container_name: mini-lamp-php-fpm-72
     working_dir: /application
     volumes:
       - www:/application/public
