@@ -41,6 +41,9 @@ services:
       - www:/usr/local/apache2/htdocs
     ports:
       - "80:80"
+    links: 
+      - php-fpm-72:php-fpm-72
+      - php-fpm-56:php-fpm-56
 
   php-fpm-72:
     build: phpdocker/php-fpm-72
